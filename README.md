@@ -1,5 +1,3 @@
-**Status**: Alpha
-
 # Strange Attractors: The Mathematics of Beautiful Chaos
 
 Strange attractors represent one of the most profound discoveries in 20th-century mathematics—deterministic systems that generate infinite complexity from simple rules. These mathematical objects create never-repeating, organic patterns that have revolutionised our understanding of chaos, unpredictability, and the hidden order within apparent randomness. Their unique properties make them exceptionally suited for generative audiovisual art, offering artists a powerful framework where mathematical rigor meets aesthetic beauty.

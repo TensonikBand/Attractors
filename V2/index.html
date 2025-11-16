@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Strange Attractors V2 - Rebuild</title>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      overflow: hidden;
+      background: #000510;
+      color: #ffffff;
+    }
+
+    #canvas-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    #controls {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      background: rgba(0, 5, 16, 0.85);
+      padding: 20px;
+      border-radius: 8px;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(100, 150, 255, 0.3);
+      max-width: 300px;
+      z-index: 100;
+    }
+
+    #controls h2 {
+      margin: 0 0 15px 0;
+      font-size: 18px;
+      color: #6495ff;
+      border-bottom: 1px solid rgba(100, 150, 255, 0.3);
+      padding-bottom: 10px;
+    }
+
+    .control-group {
+      margin-bottom: 15px;
+    }
+
+    .control-group label {
+      display: block;
+      margin-bottom: 5px;
+      font-size: 14px;
+      color: #aaaaaa;
+    }
+
+    select, input[type="range"] {
+      width: 100%;
+      padding: 8px;
+      background: rgba(20, 30, 50, 0.8);
+      border: 1px solid rgba(100, 150, 255, 0.3);
+      border-radius: 4px;
+      color: #ffffff;
+      font-size: 14px;
+    }
+
+    select:focus, input[type="range"]:focus {
+      outline: none;
+      border-color: #6495ff;
+    }
+
+    .value-display {
+      display: inline-block;
+      margin-left: 10px;
+      color: #6495ff;
+      font-weight: bold;
+    }
+
+    #info {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      background: rgba(0, 5, 16, 0.85);
+      padding: 15px;
+      border-radius: 8px;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(100, 150, 255, 0.3);
+      max-width: 300px;
+      font-size: 14px;
+      line-height: 1.6;
+      z-index: 100;
+    }
+
+    #info strong {
+      color: #6495ff;
+    }
+
+    #info small {
+      color: #888888;
+    }
+
+    button {
+      width: 100%;
+      padding: 10px;
+      background: rgba(100, 150, 255, 0.2);
+      border: 1px solid rgba(100, 150, 255, 0.5);
+      border-radius: 4px;
+      color: #ffffff;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    button:hover {
+      background: rgba(100, 150, 255, 0.3);
+      border-color: #6495ff;
+    }
+
+    button.active {
+      background: rgba(100, 200, 100, 0.3);
+      border-color: #64c864;
+    }
+
+    button:focus {
+      outline: none;
+      box-shadow: 0 0 0 2px rgba(100, 150, 255, 0.3);
+    }
+
+    .section-title {
+      font-size: 12px;
+      color: #888888;
+      margin-top: 15px;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+  </style>
+</head>
+<body>
+  <div id="canvas-container"></div>
+
+  <div id="controls">
+    <h2>Strange Attractors V2</h2>
+
+    <div class="control-group">
+      <label for="attractor-select">Attractor</label>
+      <select id="attractor-select">
+        <option value="thomas">Thomas</option>
+        <option value="lorenz">Lorenz</option>
+        <option value="rossler">Rössler</option>
+        <option value="aizawa">Aizawa</option>
+        <option value="arneodo">Arneodo</option>
+        <option value="chen_lee">Chen-Lee</option>
+        <option value="chua">Chua's Circuit</option>
+        <option value="dadras">Dadras</option>
+        <option value="dequan_li">Dequan Li</option>
+        <option value="halvorsen">Halvorsen</option>
+        <option value="lorenz_mod2">Lorenz Mod 2</option>
+        <option value="simone">Simone</option>
+        <option value="three_scroll">Three Scroll</option>
+        <option value="wang_sun">Wang-Sun</option>
+      </select>
+    </div>
+
+    <div class="section-title">Audio System</div>
+
+    <div class="control-group">
+      <button id="audio-toggle">🔇 Audio Off</button>
+    </div>
+
+    <div class="control-group">
+      <label for="volume">
+        Volume
+        <span class="value-display" id="volume-value">60%</span>
+      </label>
+      <input type="range" id="volume" min="0" max="1" step="0.01" value="0.6">
+    </div>
+
+    <div class="control-group">
+      <label for="reverb">
+        Reverb
+        <span class="value-display" id="reverb-value">30%</span>
+      </label>
+      <input type="range" id="reverb" min="0" max="1" step="0.01" value="0.3">
+    </div>
+  </div>
+
+  <div id="info">
+    <strong>Loading...</strong>
+  </div>
+
+  <div id="controls-hint" style="
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: rgba(0, 5, 16, 0.85);
+    padding: 15px;
+    border-radius: 8px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(100, 150, 255, 0.3);
+    font-size: 12px;
+    color: #888;
+    z-index: 100;
+    max-width: 200px;
+  ">
+    <div style="color: #6495ff; font-weight: bold; margin-bottom: 5px;">Controls</div>
+    🖱️ <strong>Drag</strong> to rotate<br>
+    🔍 <strong>Scroll</strong> to zoom<br>
+    ⌨️ <strong>H</strong> to hide UI<br>
+    ⬅️➡️ <strong>Arrows</strong> to change attractor<br>
+    <div style="margin-top: 5px; font-size: 10px; opacity: 0.7;">
+      Rotation affects audio perspective
+    </div>
+  </div>
+
+  <script type="module" src="/src/main.ts"></script>
+</body>
+</html>

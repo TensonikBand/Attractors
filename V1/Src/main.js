@@ -35,15 +35,15 @@ class StrangeAttractorApp {
     async init() {
         console.log('Initializing Strange Attractor Application...');
 
-        // Initialize Three.js
+        // Initialise Three.js
         this.initThreeJS();
 
-        // Initialize particle system (pass renderer)
+        // Initialise particle system (pass renderer)
         this.particleSystem = new ParticleSystem(this.particleCount, this.attractorType);
         this.particleSystem.init(this.renderer);
         this.scene.add(this.particleSystem.getMesh());
 
-        // Initialize audio system
+        // Initialise audio system
         this.audioSystem = new AudioSystem(8);
 
         // Setup UI event listeners
