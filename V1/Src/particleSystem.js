@@ -18,7 +18,7 @@ class ParticleSystem {
         this.particleMesh = null;
         this.computeMaterial = null;
         
-        // Don't auto-initialize - wait for explicit init() call with renderer
+        // Don't auto-initialise - wait for explicit init() call with renderer
     }
 
     init(renderer) {
@@ -29,7 +29,7 @@ class ParticleSystem {
         // Create render targets for ping-pong
         this.createRenderTargets();
         
-        // Initialize positions (needs renderer)
+        // Initialise positions (needs renderer)
         this.initializePositions(renderer);
         
         // Create compute scene for GPU calculation

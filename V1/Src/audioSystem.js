@@ -11,7 +11,7 @@ class AudioSystem {
         this.isInitialized = false;
         this.isPlaying = false;
         
-        // Musical scale for quantization (Pentatonic minor)
+        // Musical scale for quantisation (Pentatonic minor)
         this.scale = [
             261.63, // C4
             293.66, // D4
@@ -57,9 +57,9 @@ class AudioSystem {
             this.createVoices();
 
             this.isInitialized = true;
-            console.log('Audio system initialized');
+            console.log('Audio system initialised');
         } catch (error) {
-            console.error('Failed to initialize audio system:', error);
+            console.error('Failed to initialise audio system:', error);
             throw error;
         }
     }
